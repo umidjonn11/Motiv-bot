@@ -20,7 +20,6 @@ export class BotService implements OnModuleInit {
   }
 
   private registerHandlers() {
-    // Start command
     this.bot.command('start', async (ctx) => {
       if (!ctx.from) throw new Error('No user in context');
       
@@ -35,14 +34,12 @@ export class BotService implements OnModuleInit {
       });
     });
 
-    // Create quote callback
     this.bot.callbackQuery('create_quote', async (ctx) => {
       this.pendingQuotes.set(ctx.from.id, true);
       await ctx.reply('Please send your new motivational quote:');
       await ctx.answerCallbackQuery();
     });
 
-    // Handle text messages for quotes
     this.bot.on('message:text', async (ctx) => {
       const userId = ctx.from?.id;
       if (userId && this.pendingQuotes.get(userId)) {
@@ -53,7 +50,6 @@ export class BotService implements OnModuleInit {
       }
     });
 
-    // Random quote callback
     this.bot.callbackQuery('random_quote', async (ctx) => {
       const quote = await this.quotesService.getRandom();
       if (!quote) {
@@ -68,7 +64,6 @@ export class BotService implements OnModuleInit {
       await ctx.answerCallbackQuery();
     });
 
-    // Top quotes callback
     this.bot.callbackQuery('top_quotes', async (ctx) => {
       const topQuotes = await this.quotesService.findTop();
       if (!topQuotes.length) {
@@ -85,14 +80,12 @@ export class BotService implements OnModuleInit {
       await ctx.answerCallbackQuery();
     });
 
-    // Like callback
     this.bot.callbackQuery(/^like_(.+)$/, async (ctx) => {
       const quoteId = ctx.match[1];
       await this.quotesService.increaseLike(quoteId);
       await ctx.answerCallbackQuery({ text: '✅ Liked!' });
     });
 
-    // Error handling
     this.bot.catch((err) => {
       console.error('Bot error:', err);
     });

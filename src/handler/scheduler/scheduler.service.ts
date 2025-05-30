@@ -12,7 +12,7 @@ export class SchedulerService {
     private readonly quotesService: QuotesService,
   ) {}
 
-  @Cron('0 9 * * *') // Runs at 9:00 AM every day
+  @Cron('0 9 * * *') 
   async sendDailyQuote() {
     try {
       const quote = await this.quotesService.getRandom();
