@@ -5,6 +5,7 @@ import { BotService } from './bot.service';
 import { SchedulerService } from '../handler/scheduler/scheduler.service';
 import { UserModule } from '../handler/users/users.module';
 import { QuotesModule } from '../handler/qoutes/qoutes.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { QuotesModule } from '../handler/qoutes/qoutes.module';
     {
       provide: 'BOT',
       useFactory: () => {
-        const bot = new Bot(process.env.BOT_TOKEN || "7775297919:AAG_Chq9jPWfc8MAZkAM1gB_JWbD8-krsOw");
+        const bot = new Bot(process.env.BOT_TOKEN!);
         return bot;
       },
     },

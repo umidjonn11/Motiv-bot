@@ -10,7 +10,7 @@ import { BotModule } from './bot/bot.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env', // Explicitly specify the env file path
+      envFilePath: '.env', 
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -20,14 +20,13 @@ import { BotModule } from './bot/bot.module';
       password: process.env.DB_PASSWORD || 'umidjon06',
       database: process.env.DB_NAME || 'motiv',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: process.env.NODE_ENV !== 'production', // safer sync setting
+      synchronize: process.env.NODE_ENV !== 'production', 
       autoLoadEntities: true,
     }),
     ScheduleModule.forRoot(),
     UserModule,
     QuotesModule,
     BotModule,
-    // Removed SchedulerModule as it's now integrated in BotModule
   ],
 })
 export class AppModule {}
